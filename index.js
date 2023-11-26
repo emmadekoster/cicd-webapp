@@ -39,7 +39,7 @@ app.get(
   asyncMiddleware(async (req, res) => {
     const animal = await persistence.getAnimal(Number(req.params.id));
     res.json(animal);
-  })
+  }),
 );
 
 app.use((err, _, res, next) => {
