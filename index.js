@@ -31,8 +31,9 @@ app.get(
   asyncMiddleware(async (_, res) => {
     const animals = await persistence.getAnimals();
     res.json(animals);
-  })
+  }),
 );
+
 
 app.get(
   '/animals/:id',
