@@ -1,0 +1,34 @@
+version: "3"
+services:
+  webapp:
+    image: emmadekoster/webapp
+    ports:
+      - "3000"
+    volumes:
+      - ./database:/app/database
+    depends_on:
+      - database
+    environment:
+      MONGO_URL: mongodb://root:examplePassword@database:27017/webappdb
+
+  database:
+    image: mongo:4
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: examplePassword
+      MONGO_INITDB_DATABASE: webappdb
+    volumes:
+      - mongodb_data:/data/db
+
+  tests:
+    image: emmadekoster/webapp
+    depends_on:
+      - webapp
+    environment:
+      API_URL: http://webapp:3000
+    command: yarn test
+
+volumes:
+  mongodb_data:
